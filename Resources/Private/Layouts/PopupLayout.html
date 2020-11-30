@@ -1,35 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers">
+
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+
+
 <f:comment><!--
         adding data-cookieman-showonce=1 only if we are not currently on pages where direct read access is mandatory
         -->
 </f:comment>
-<f:variable name="isShowOnce"
-    value="{f:if(
-        condition:'{data.uid} != {settings.links.dataProtectionDeclarationPid}
-            && {data.uid} != {settings.links.imprintPid}',
-        then: 1,
-        else: 0
-    )}"
-/>
-<f:variable name="dataProtectionDeclarationLink">
+
+<f:if condition="{data.uid} != {settings.links.dataProtectionDeclarationPid}">
+	<f:then>
+		<f:if condition="{data.uid} != {settings.links.imprintPid}">
+			<f:then>
+				<v:variable.set name="isShowOnce" value="1" />
+			</f:then>
+			<f:else>
+				<v:variable.set name="isShowOnce" value="0" />
+			</f:else>
+		</f:if>
+	</f:then>
+	<f:else>
+		<v:variable.set name="isShowOnce" value="0" />
+	</f:else>
+</f:if>
+
+<v:variable.set name="dataProtectionDeclarationLink">
     <a href="{f:uri.page(
         pageUid: settings.links.dataProtectionDeclarationPid,
         section: settings.links.dataProtectionDeclarationAnchor
     )}"
     >{f:translate(key: 'dataProtectionDeclaration')}</a>
-</f:variable>
+</v:variable.set>
 
-<f:variable name="imprintLink">
+<v:variable.set name="imprintLink">
     <a href="{f:uri.page(
         pageUid: settings.links.imprintPid,
         section: settings.links.imprintAnchor
     )}"
     >{f:translate(key: 'imprint')}</a>
-</f:variable>
+</v:variable.set>
 
 
-<div id="cookieman-modal"
+<div id="cookieman-modal" 
      data-cookieman-showonce="{isShowOnce}"
-     data-cookieman-settings="{f:format.json(value: '{groups: settings.groups, trackingObjects: settings.trackingObjects}')}"
+     data-cookieman-settings='{v:format.json.encode(value: '{groups: settings.groups, trackingObjects: settings.trackingObjects}')}'
      class="modal fade" tabindex="-1" role="dialog"
 >
     <f:render section="Content"/>

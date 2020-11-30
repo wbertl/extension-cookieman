@@ -10,10 +10,8 @@
 defined('TYPO3_MODE') || die();
 
 // static TypoScript
-(static function () {
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-        'cookieman',
-        'Configuration/TypoScript',
-        'Cookieman'
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
+    'cookieman',
+    'Configuration/TypoScript',
+    'Cookieman'
     );
-})();

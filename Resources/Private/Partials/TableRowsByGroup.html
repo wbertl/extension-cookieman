@@ -1,8 +1,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers">
+      
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+      
 <f:section name="content">
     <f:for each="{group.trackingObjects}" as="trackingObjectId">
-        <f:for each="{settings.trackingObjects.{trackingObjectId}.show}"
+    
+    	<v:variable.set name="trackingItems" value="{v:variable.get(name: 'settings.trackingObjects.{trackingObjectId}.show')}" />
+    
+        <f:for each="{trackingItems}"
                key="trackingItemId" as="trackingItem">
             <tr>
                 <td>
